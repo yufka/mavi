@@ -1,11 +1,8 @@
-package com.osa.core.image;
+package com.osa.core.protrait.image;
 
-import com.osa.core.matrix.Matrix;
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import javax.imageio.ImageIO;
 
 /**
@@ -13,9 +10,16 @@ import javax.imageio.ImageIO;
  * @author oleksii
  * @since Dec 25, 2020
  */
-public class MatrixPortrait {
+public class BufferedImageWriter {
     
-    private BufferedImage bufferedImage;
+    private final BufferedImage bufferedImage;
+    
+    public BufferedImageWriter(BufferedImage image) {
+        if (image == null) {
+            throw new IllegalArgumentException("Can not create writer for null object");
+        }
+        this.bufferedImage = image;
+    }
     
     public void saveTo(final String fileName) throws IOException {
         File outputfile = new File(fileName + ".png");

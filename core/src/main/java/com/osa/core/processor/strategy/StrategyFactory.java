@@ -20,7 +20,7 @@ public class StrategyFactory {
             case MID_VAL:
                 return new MiddleValueStrategy();
             case MID_AVG_VAL:
-                return new MiddleValueAbsStrategy();
+                return new MiddleAbsValueStrategy();
             default:
                 throw new IllegalArgumentException("Can not find strategy with name");
         }

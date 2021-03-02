@@ -1,7 +1,13 @@
 package com.osa.core.io;
 
-import com.osa.core.image.MatrixPortrait;
+import com.osa.core.io.reader.DummyMatrixReader;
+import com.osa.core.protrait.image.BufferedImageWriter;
 import com.osa.core.matrix.Matrix;
+import com.osa.core.processor.PortraitBuilder;
+import com.osa.core.processor.palette.BasicPalette;
+import com.osa.core.processor.strategy.StrategyName;
+import com.osa.core.protrait.Portrait;
+import com.osa.core.protrait.PortraitToImageTransformer;
 import org.junit.Test;
 
 /**
@@ -13,25 +19,16 @@ public class DummyMatrixReaderTest {
     
     private static final String FILE_PATH = "/Users/oleksii/Documents/Projects/mavi/matrix/test_dummy.mtx";
     
-    private static final String FILE_PATH_2 = "/Users/oleksii/Documents/Projects/mavi/matrix/test_dummy_large.mtx";
-
-    @Test
-    public void readMatrixTest() {
-        try {
-            Matrix m = new DummyMatrixReader().read(FILE_PATH);
-            System.out.println(m);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-    }
+    private static final String FILE_PATH_2 = "/Users/oleksii/Documents/Projects/mavi/matrix/test_dummy_large.mtx";    
     
     @Test
     public void readMatrixTest1() {
         try {
             Matrix m = new DummyMatrixReader().read(FILE_PATH_2);
             System.out.println(m);
-            new MatrixPortrait.Builder(m.getNumberOfRows(), m.getNumberOfColumns()).build(m).saveTo("result");
+            PortraitBuilder builder = new PortraitBuilder(4, 6, StrategyName.MID_AVG_VAL);
+            Portrait portrait = builder.build(m);
+            new BufferedImageWriter(new PortraitToImageTransformer(new BasicPalette()).getImage(portrait)).saveTo("result");
         } catch (Exception e) {
             e.printStackTrace();
         }

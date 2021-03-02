@@ -1,4 +1,4 @@
-package com.osa.core.io;
+package com.osa.core.io.reader;
 
 import com.osa.core.matrix.Matrix;
 

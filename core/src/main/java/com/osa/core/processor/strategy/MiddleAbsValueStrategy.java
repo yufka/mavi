@@ -5,7 +5,7 @@ package com.osa.core.processor.strategy;
  * @author oleksii
  * @since Dec 26, 2020
  */
-public class MiddleValueAbsStrategy implements Strategy {
+public class MiddleAbsValueStrategy implements Strategy {
     
     private double result = .0;
     

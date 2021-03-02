@@ -10,7 +10,7 @@ public class ConstantStrategy implements Strategy {
     private double value = .0;
 
     @Override
-    public void process(double value) {
+    public void process(final double value) {
         this.value = value;
     }
 
