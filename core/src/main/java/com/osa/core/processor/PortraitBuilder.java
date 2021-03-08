@@ -62,7 +62,7 @@ public class PortraitBuilder {
         Portrait portrait = new Portrait(height, width);
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                System.out.println(i + " " + j + " " + strategyMatrix[i][j].getResult());
+//                System.out.println(i + " " + j + " " + strategyMatrix[i][j].getResult());
                 portrait.set(i, j, strategyMatrix[i][j].getResult());
                 
             }
