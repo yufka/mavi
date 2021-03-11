@@ -1,11 +1,11 @@
 package com.osa.core.protrait;
 
 import com.osa.core.processor.palette.Palette;
-import com.osa.core.protrait.Portrait;
 import java.awt.image.BufferedImage;
 
 /**
- *
+ * This class transforms matrix Portrait into {@link BufferedImage} depending on palette.
+ * 
  * @author oleksii
  * @since Mar 1, 2021
  */
@@ -20,6 +20,7 @@ public class PortraitToImageTransformer {
     private PortraitToImageTransformer() {
     }
     
+   
     public BufferedImage getImage(Portrait portrait) {
         if (portrait == null) {
             throw new IllegalArgumentException("Can not convert null object to image");

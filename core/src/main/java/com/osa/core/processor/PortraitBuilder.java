@@ -1,13 +1,12 @@
 package com.osa.core.processor;
 
-import com.osa.core.matrix.Matrix;
-import com.osa.core.processor.palette.Palette;
+import com.osa.core.io.reader.MatrixEntry;
+import com.osa.core.io.reader.MatrixFileMetadata;
+import com.osa.core.io.reader.MatrixFileReader;
 import com.osa.core.processor.strategy.Strategy;
 import com.osa.core.processor.strategy.StrategyFactory;
 import com.osa.core.processor.strategy.StrategyName;
 import com.osa.core.protrait.Portrait;
-import java.awt.Color;
-import java.awt.image.BufferedImage;
 
 /**
  * Builder to create a Matrix Portrait.
@@ -47,22 +46,18 @@ public class PortraitBuilder {
         }
     }
     
-    public Portrait build(final Matrix matrix) {
-        for (int rowNumber = 0; rowNumber < matrix.getNumberOfRows(); rowNumber++) { // iterate over matrix rows
-            int colIndexStart = matrix.getRowIndexList().get(rowNumber);
-            int colIndexFinish = matrix.getRowIndexList().get(rowNumber + 1);
-            for (int colNumberIndex = colIndexStart; colNumberIndex < colIndexFinish; colNumberIndex++) {
-                int colNumber = matrix.getColIndexList().get(colNumberIndex);   
-                double val = matrix.getValueList().get(colNumberIndex);
-                int rowProjection = project(rowNumber, matrix.getNumberOfRows(), height);
-                int colProjection = project(colNumber, matrix.getNumberOfColumns(), width);
-                strategyMatrix[rowProjection][colProjection].process(val);
-            }
+    public Portrait build(final MatrixFileReader reader) {
+        MatrixFileMetadata meta = reader.getMetadata();
+        MatrixEntry entry;
+        while((entry = reader.getEntry()) != null) {
+            int rowProjection = project(entry.getRow(), meta.getNumberOfRows(), height);
+            int colProjection = project(entry.getColumn(), meta.getNumberOfColumns(), width);
+            strategyMatrix[rowProjection][colProjection].process(entry.getValue());
         }
+        
         Portrait portrait = new Portrait(height, width);
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-//                System.out.println(i + " " + j + " " + strategyMatrix[i][j].getResult());
                 portrait.set(i, j, strategyMatrix[i][j].getResult());
                 
             }
@@ -78,6 +73,7 @@ public class PortraitBuilder {
      * @return 
      */
     private int project(int index, int matrixDim, int portraitDim) {
-        return index * (portraitDim / matrixDim);
+        float scale = (float) portraitDim / (float) matrixDim;
+        return (int) (index * scale);
     }
 }
