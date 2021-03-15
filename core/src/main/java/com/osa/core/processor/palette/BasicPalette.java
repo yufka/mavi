@@ -8,7 +8,11 @@ import java.awt.Color;
  * @author oleksii
  * @since Feb 13, 2021
  */
-public class BasicPalette implements Palette {
+public class BasicPalette extends Palette {
+
+    public BasicPalette(double maxElement) {
+        super(maxElement);
+    }
 
     @Override
     public Color get(double value) {

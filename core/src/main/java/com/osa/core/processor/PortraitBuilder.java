@@ -3,6 +3,7 @@ package com.osa.core.processor;
 import com.osa.core.io.reader.MatrixEntry;
 import com.osa.core.io.reader.MatrixFileMetadata;
 import com.osa.core.io.reader.MatrixFileReader;
+import com.osa.core.io.reader.MatrixFileStats;
 import com.osa.core.processor.strategy.Strategy;
 import com.osa.core.processor.strategy.StrategyFactory;
 import com.osa.core.processor.strategy.StrategyName;
@@ -15,6 +16,8 @@ import com.osa.core.protrait.Portrait;
  * @since Dec 26, 2020
  */
 public class PortraitBuilder {
+    
+    private MatrixFileStats stats;
     
     private final Strategy[][] strategyMatrix;
     
@@ -47,12 +50,14 @@ public class PortraitBuilder {
     }
     
     public Portrait build(final MatrixFileReader reader) {
+        stats = new MatrixFileStats();
         MatrixFileMetadata meta = reader.getMetadata();
         MatrixEntry entry;
         while((entry = reader.getEntry()) != null) {
             int rowProjection = project(entry.getRow(), meta.getNumberOfRows(), height);
             int colProjection = project(entry.getColumn(), meta.getNumberOfColumns(), width);
             strategyMatrix[rowProjection][colProjection].process(entry.getValue());
+            stats.processElement(entry.getValue());
         }
         
         Portrait portrait = new Portrait(height, width);
@@ -66,7 +71,7 @@ public class PortraitBuilder {
     }
     
     /**
-     * Project the index from matrix dimention to portrait dimentions
+     * Project the index from matrix dimension to portrait dimensions
      * @param index row or column number of the matrix
      * @param matrixDim matrix size (in case if i -> width, in case of j -> height)
      * @param portraitDim portrait scale
@@ -75,5 +80,9 @@ public class PortraitBuilder {
     private int project(int index, int matrixDim, int portraitDim) {
         float scale = (float) portraitDim / (float) matrixDim;
         return (int) (index * scale);
+    }
+
+    public MatrixFileStats getStats() {
+        return stats;
     }
 }

@@ -7,7 +7,13 @@ import java.awt.Color;
  * @author oleksii
  * @since Feb 13, 2021
  */
-public interface Palette {
+public abstract class Palette {
     
-    Color get(double value);
+    protected double maxElement;
+    
+    public Palette(double maxElement) {
+        this.maxElement = maxElement;
+    }
+    
+    public abstract Color get(double value);
 }
