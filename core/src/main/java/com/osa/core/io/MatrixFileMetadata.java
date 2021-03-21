@@ -1,4 +1,4 @@
-package com.osa.core.io.reader;
+package com.osa.core.io;
 
 /**
  * Class contains information about matrix size, number of elements,

@@ -1,9 +1,9 @@
 package com.osa.core.processor;
 
-import com.osa.core.io.reader.MatrixEntry;
-import com.osa.core.io.reader.MatrixFileMetadata;
-import com.osa.core.io.reader.MatrixFileReader;
-import com.osa.core.io.reader.MatrixFileStats;
+import com.osa.core.io.MatrixEntry;
+import com.osa.core.io.MatrixFileMetadata;
+import com.osa.core.io.MatrixFileReader;
+import com.osa.core.io.MatrixFileStats;
 import com.osa.core.processor.strategy.Strategy;
 import com.osa.core.processor.strategy.StrategyFactory;
 import com.osa.core.processor.strategy.StrategyName;

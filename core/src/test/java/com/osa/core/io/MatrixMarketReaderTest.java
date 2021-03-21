@@ -1,9 +1,5 @@
 package com.osa.core.io;
 
-import com.osa.core.io.reader.MatrixEntry;
-import com.osa.core.io.reader.MatrixFileMetadata;
-import com.osa.core.io.reader.MatrixFileReader;
-import com.osa.core.io.reader.MatrixMarketReader;
 import java.io.IOException;
 import org.junit.Test;
 

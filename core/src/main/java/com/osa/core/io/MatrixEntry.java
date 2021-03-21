@@ -1,4 +1,4 @@
-package com.osa.core.io.reader;
+package com.osa.core.io;
 
 /**
  * Class represents a single element of the matrix from input file.

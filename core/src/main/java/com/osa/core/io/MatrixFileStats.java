@@ -1,4 +1,4 @@
-package com.osa.core.io.reader;
+package com.osa.core.io;
 
 /**
  *
@@ -14,7 +14,6 @@ public class MatrixFileStats {
     public double getMaxElement() {
         return maxElement;
     }
-
 
     public double getMinElement() {
         return minElement;

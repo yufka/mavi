@@ -1,4 +1,4 @@
-package com.osa.core.io.reader;
+package com.osa.core.io;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -38,6 +38,12 @@ public abstract class MatrixFileReader {
     
     public abstract MatrixFileMetadata getMetadata();
     
+    /**
+     * This function can be used by matrix readers to split string into words.
+     * 
+     * @param line string line
+     * @return array of words from string, or {@code null} if string is not initialized.
+     */
     protected String[] splitOnWhiteSpaces(final String line) {
         if (line != null) {
             return line.trim().split("\\s+");

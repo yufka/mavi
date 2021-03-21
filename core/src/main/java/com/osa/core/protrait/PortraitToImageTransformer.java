@@ -1,6 +1,6 @@
 package com.osa.core.protrait;
 
-import com.osa.core.processor.palette.Palette;
+import com.osa.core.palette.Palette;
 import java.awt.image.BufferedImage;
 
 /**

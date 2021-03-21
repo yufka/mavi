@@ -1,4 +1,4 @@
-package com.osa.core.processor.palette;
+package com.osa.core.palette;
 
 import java.awt.Color;
 

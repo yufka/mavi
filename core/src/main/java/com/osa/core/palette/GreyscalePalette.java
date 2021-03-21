@@ -1,6 +1,6 @@
-package com.osa.core.processor.palette;
+package com.osa.core.palette;
 
-import com.osa.core.io.reader.MatrixFileMetadata;
+import com.osa.core.io.MatrixFileMetadata;
 import java.awt.Color;
 
 /**
@@ -18,7 +18,7 @@ public class GreyscalePalette extends Palette {
 
     @Override
     public Color get(double value) {
-        int scaled = 255 - (int) (255.0 * value / maxElement);
+        int scaled = 255 - (int) (255.0 * value / (maxElement));
         return new Color(scaled, scaled, scaled);
     }
 

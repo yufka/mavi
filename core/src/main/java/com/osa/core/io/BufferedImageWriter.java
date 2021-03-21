@@ -1,4 +1,4 @@
-package com.osa.core.protrait.image;
+package com.osa.core.io;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
