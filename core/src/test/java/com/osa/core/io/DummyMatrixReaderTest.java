@@ -2,6 +2,7 @@ package com.osa.core.io;
 
 import com.osa.core.processor.PortraitBuilder;
 import com.osa.core.palette.GreyscalePalette;
+import com.osa.core.palette.RainbowPalette;
 import com.osa.core.processor.strategy.StrategyName;
 import com.osa.core.protrait.Portrait;
 import com.osa.core.protrait.PortraitToImageTransformer;
@@ -40,7 +41,7 @@ public class DummyMatrixReaderTest {
             Portrait portrait = builder.build(reader);
             double maxElement = builder.getStats().getMaxElement();
             new BufferedImageWriter(new PortraitToImageTransformer(
-                    new GreyscalePalette(maxElement)).getImage(portrait)).saveTo("result2");
+                    new RainbowPalette(maxElement)).getImage(portrait)).saveTo("result2");
         } catch (Exception e) {
             e.printStackTrace();
         }

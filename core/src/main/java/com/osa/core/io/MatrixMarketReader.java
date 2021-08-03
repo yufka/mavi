@@ -3,20 +3,22 @@ package com.osa.core.io;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Locale;
+import org.apache.log4j.Logger;
 
 /**
  * This class read files of MatrixMarket type described in Matrix Market
- * {
- *
- * @see <a href="https://math.nist.gov/MatrixMarket/formats.html">Martix Market</a>}
- * {
- * @see <a href="https://math.nist.gov/MatrixMarket/reports/MMformat.ps">The Martix Market Exchange Formas: Initial
+ * {@see <a href="https://math.nist.gov/MatrixMarket/formats.html">Martix Market</a>}
+ * {@see <a href="https://math.nist.gov/MatrixMarket/reports/MMformat.ps">The Martix Market Exchange Formas: Initial
  * Design</a>}
  *
  * @author oleksii
  * @since Mar 3, 2021
  */
 public class MatrixMarketReader extends MatrixFileReader {
+    
+    private static final String SERVICE = MatrixMarketReader.class.getName();
+    
+    private static final Logger LOGGER = Logger.getLogger("");
 
     /**
      * First Line in Matrix Market should start with this String.
@@ -70,8 +72,8 @@ public class MatrixMarketReader extends MatrixFileReader {
                 return new MatrixEntry(Integer.valueOf(splits[0]) - 1, Integer.valueOf(splits[1]) - 1,
                         Double.valueOf(splits[2]));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException | IllegalArgumentException e) {
+            LOGGER.error(SERVICE, e);
         }
         return null;
     }

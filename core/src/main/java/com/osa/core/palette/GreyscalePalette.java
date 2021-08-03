@@ -1,6 +1,5 @@
 package com.osa.core.palette;
 
-import com.osa.core.io.MatrixFileMetadata;
 import java.awt.Color;
 
 /**
