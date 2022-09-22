@@ -7,9 +7,17 @@ package com.osa.core.io;
  */
 public class MatrixFileStats {
 
-    private double maxElement = Double.MIN_VALUE;
+    private double maxElement;
     
-    private double minElement = Double.MAX_VALUE;
+    private double minElement;
+    
+    private final boolean abolute;
+    
+    public MatrixFileStats(final boolean absolute) {
+        this.abolute = absolute;
+        this.minElement = Double.MAX_VALUE;
+        this.maxElement = Double.MIN_VALUE;
+    }
 
     public double getMaxElement() {
         return maxElement;
@@ -20,11 +28,16 @@ public class MatrixFileStats {
     }
 
     public void processElement(double element) {
-        if (this.minElement > element) {
-            this.minElement = element;
+        double normalizedValue = abolute ? Math.abs(element) : element;
+        if (this.minElement > normalizedValue) {
+            this.minElement = normalizedValue;
         }
-        if (this.maxElement < element) {
-            this.maxElement = element;
+        if (this.maxElement < normalizedValue) {
+            this.maxElement = normalizedValue;
         }
+    }
+
+    public boolean isAbolute() {
+        return abolute;
     }
 }

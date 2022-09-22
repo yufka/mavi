@@ -10,7 +10,8 @@ import org.junit.Test;
  */
 public class MatrixMarketReaderTest {
     
-    private static final String MM_FILE_PATH = "/Users/oleksii/Documents/Projects/mavi/matrix/fidap005.mtx";
+    // private static final String MM_FILE_PATH = "/Users/oleksii/Documents/Projects/mavi/matrix/fidap005.mtx";
+    private static final String MM_FILE_PATH = "/Users/oleksii/Documents/Projects/mavi/matrix/fidapm37.mtx";
 
     @Test
     public void testReader() throws IOException {

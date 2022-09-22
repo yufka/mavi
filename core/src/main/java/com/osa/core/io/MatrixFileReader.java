@@ -4,14 +4,15 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 
 /**
- * Interface for FileReaders
+ * Interface for File Readers
  * 
  * @author oleksii
  * @since Jul 22, 2020
  */
-public abstract class MatrixFileReader {
+public abstract class MatrixFileReader implements AutoCloseable {
     
     /**
      * String contains path to file of matrix.
@@ -49,5 +50,12 @@ public abstract class MatrixFileReader {
             return line.trim().split("\\s+");
         }
         return null;
+    }
+    
+    @Override
+    public void close() throws IOException {
+        if (this.bufferedReader != null) {
+            this.bufferedReader.close();
+        }
     }
 }

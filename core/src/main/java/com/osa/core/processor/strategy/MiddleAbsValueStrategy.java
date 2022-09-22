@@ -1,7 +1,9 @@
 package com.osa.core.processor.strategy;
 
 /**
- *
+ * This strategy computes the average of absolute values
+ * of processed numbers.
+ * 
  * @author oleksii
  * @since Dec 26, 2020
  */
@@ -24,7 +26,6 @@ public class MiddleAbsValueStrategy implements Strategy {
 
     @Override
     public StrategyName getName() {
-        return StrategyName.MID_AVG_VAL;
+        return StrategyName.MID_ABS_VAL;
     }
-
 }

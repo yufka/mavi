@@ -7,10 +7,6 @@ package com.osa.core.processor.strategy;
  */
 public class StrategyFactory {
     
-    public static Strategy get(final int strategyId) {
-        return get(StrategyName.get(strategyId));
-    }
-    
     public static Strategy get(final StrategyName strategyName) {
         switch (strategyName) {
             case MAX_VAL:
@@ -19,7 +15,7 @@ public class StrategyFactory {
                 return new MaxAbsValueStrategy();
             case MID_VAL:
                 return new MiddleValueStrategy();
-            case MID_AVG_VAL:
+            case MID_ABS_VAL:
                 return new MiddleAbsValueStrategy();
             default:
                 throw new IllegalArgumentException("Can not find strategy with name");

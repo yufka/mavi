@@ -7,43 +7,18 @@ package com.osa.core.processor.strategy;
  */
 public enum StrategyName {
 
-    MAX_VAL, // 1
-    MAX_ABS_VAL, // 2
-    MID_VAL, // 3
-    MID_AVG_VAL, // 4
-    CONST; // 5
+    MAX_VAL, MAX_ABS_VAL, MID_VAL, MID_ABS_VAL;
     
-    public static int get(StrategyName name) {
+    public static boolean isAbsoluteValueStrategy(final StrategyName name) {
         switch (name) {
-            case MAX_VAL:
-                return 1;
             case MAX_ABS_VAL:
-                return 2;
+            case MID_ABS_VAL:
+                return true;
+            case MAX_VAL:
             case MID_VAL:
-                return 3;
-            case MID_AVG_VAL:
-                return 4;
-            case CONST:
-                return 5;
+                return false;
             default:
                 throw new IllegalArgumentException("Unknown strategy name");
-        }
-    }
-    
-    public static StrategyName get(final int id) {
-        switch (id) {
-            case 1:
-                return MAX_VAL;
-            case 2:
-                return MAX_ABS_VAL;
-            case 3:
-                return MID_VAL;
-            case 4:
-                return MID_AVG_VAL;
-            case 5:
-                return CONST;
-            default:
-                throw new IllegalArgumentException("Unknown StrategyName ID : " + id);
         }
     }
 }

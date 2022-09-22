@@ -11,15 +11,11 @@ import java.awt.image.BufferedImage;
  */
 public class PortraitToImageTransformer {
 
-    private Palette palette;
+    private final Palette palette;
     
     public PortraitToImageTransformer(Palette palette) {    
         this.palette = palette;
     }
-    
-    private PortraitToImageTransformer() {
-    }
-    
    
     public BufferedImage getImage(Portrait portrait) {
         if (portrait == null) {

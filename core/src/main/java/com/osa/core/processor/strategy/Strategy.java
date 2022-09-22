@@ -2,7 +2,8 @@ package com.osa.core.processor.strategy;
 
 /**
  * Interface of computation strategy how the part of matrix is processed.
- * 
+ * In order to create an instance of a strategy take a look at
+ * {@link StrategyFactory} class.
  * 
  * @author oleksii
  * @since Dec 26, 2020
@@ -27,5 +28,4 @@ public interface Strategy {
      * @return name of strategy
      */
     StrategyName getName();
-    
 }

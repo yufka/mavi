@@ -1,8 +1,8 @@
 package com.osa.core.io;
 
+import com.osa.core.palette.FullscaleRainbowPalette;
 import com.osa.core.processor.PortraitBuilder;
 import com.osa.core.palette.GreyscalePalette;
-import com.osa.core.palette.RainbowPalette;
 import com.osa.core.processor.strategy.StrategyName;
 import com.osa.core.protrait.Portrait;
 import com.osa.core.protrait.PortraitToImageTransformer;
@@ -17,7 +17,11 @@ public class DummyMatrixReaderTest {
     
     private static final String MM_FILE_PATH = "/Users/oleksii/Documents/Projects/mavi/matrix/fidap005.mtx";
     
-    private static final String MM_FILE_LARGE = "/Users/oleksii/Documents/Projects/mavi/matrix/fidapm37.mtx";
+    private static final String MM_FILE_LARGE = "/Users/oleksii/Documents/Projects/mavi/matrix/af23560.mtx";
+    
+    private static final String MM_FILE_VERY_LARGE = "/Users/oleksii/Documents/Projects/mavi/matrix/fidapm37.mtx";
+    
+    private static final String MM_FILE_VERY_LARGE_2 = "/Users/oleksii/Documents/Projects/mavi/matrix/fidapm11.mtx";
     
     @Test
     public void readMatrixTest1() {
@@ -25,9 +29,8 @@ public class DummyMatrixReaderTest {
             MatrixFileReader reader = new MatrixMarketReader(MM_FILE_PATH);
             PortraitBuilder builder = new PortraitBuilder(10, 10, StrategyName.MAX_ABS_VAL);
             Portrait portrait = builder.build(reader);
-            double maxElement = builder.getStats().getMaxElement();
             new BufferedImageWriter(new PortraitToImageTransformer(
-                    new GreyscalePalette(maxElement)).getImage(portrait)).saveTo("result");
+                    new GreyscalePalette(builder.getStats())).getImage(portrait)).saveTo("result");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -36,12 +39,12 @@ public class DummyMatrixReaderTest {
     @Test
     public void readMatrixMMTest() {
         try {
-            MatrixFileReader reader = new MatrixMarketReader(MM_FILE_LARGE);
-            PortraitBuilder builder = new PortraitBuilder(1024, 768, StrategyName.MAX_ABS_VAL);
+            MatrixFileReader reader = new MatrixMarketReader(MM_FILE_VERY_LARGE_2);
+            PortraitBuilder builder = new PortraitBuilder(353, 353, StrategyName.MAX_VAL);
             Portrait portrait = builder.build(reader);
-            double maxElement = builder.getStats().getMaxElement();
+            MatrixFileStats stats = builder.getStats();
             new BufferedImageWriter(new PortraitToImageTransformer(
-                    new RainbowPalette(maxElement)).getImage(portrait)).saveTo("result2");
+                    new FullscaleRainbowPalette(stats)).getImage(portrait)).saveTo("result2");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,7 +1,9 @@
 package com.osa.core.processor.strategy;
 
 /**
- *
+ * This strategy computes the maximum value over all
+ * numbers that are processed.
+ * 
  * @author oleksii
  * @since Dec 26, 2020
  */
@@ -18,7 +20,8 @@ public class MaxValueStrategy implements Strategy {
 
     @Override
     public double getResult() {
-        return maxCurrent;
+        // the check below basically means, that nothing was found
+        return maxCurrent == Double.MIN_VALUE ? 0 : maxCurrent;
     }
     
     @Override

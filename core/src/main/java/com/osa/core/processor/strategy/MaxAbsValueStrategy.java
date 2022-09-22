@@ -1,7 +1,9 @@
 package com.osa.core.processor.strategy;
 
 /**
- *
+ * This strategy computes the maximum absolute value
+ * over all numbers that are processed.
+ * 
  * @author oleksii
  * @since Dec 26, 2020
  */
@@ -11,8 +13,9 @@ public class MaxAbsValueStrategy implements Strategy {
 
     @Override
     public void process(final double value) {
-        if (Math.abs(value) > maxCurrent) {
-            maxCurrent = Math.abs(value);
+        double absoluteValue = Math.abs(value);
+        if (absoluteValue > maxCurrent) {
+            maxCurrent = absoluteValue;
         }
     }
 

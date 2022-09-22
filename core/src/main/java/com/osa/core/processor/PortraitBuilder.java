@@ -30,6 +30,12 @@ public class PortraitBuilder {
      * Vertical size of Portrait.
      */
     private final int height;
+    
+    /**
+     * Boolean flag, if result values are all non-negative.
+     * This might happen in case if we use {@link StrategyName#MAX_ABS_VAL} or {@link StrategyName#MID_ABS_VAL}
+     */
+    private final boolean absoluteVale;
 
     /**
      * Choose what dimension does Matrix Portrait have.
@@ -47,10 +53,11 @@ public class PortraitBuilder {
                 strategyMatrix[i][j] = StrategyFactory.get(strategyName);
             }
         }
+        this.absoluteVale = StrategyName.isAbsoluteValueStrategy(strategyName);
     }
     
     public Portrait build(final MatrixFileReader reader) {
-        stats = new MatrixFileStats();
+        stats = new MatrixFileStats(absoluteVale);
         MatrixFileMetadata meta = reader.getMetadata();
         MatrixEntry entry;
         while((entry = reader.getEntry()) != null) {
@@ -64,7 +71,6 @@ public class PortraitBuilder {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 portrait.set(i, j, strategyMatrix[i][j].getResult());
-                
             }
         }
         return portrait;
