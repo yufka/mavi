@@ -1,251 +1,433 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
 package com.osa.mavi.ui.frame;
 
 import com.osa.mavi.controller.MaviControler;
-import com.osa.mavi.core.processor.strategy.StrategyName;
-import com.osa.mavi.ui.util.IconsResourceUtil;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  *
  * @author oleksii
- * @since Sep 29, 2022
  */
-public class MainFrame extends JFrame {
-    
-    private final JFrame mainFrame;
-    
-    protected MaviControler controller;
-    
-    private JLabel imagePreview = new JLabel("Here will be preview");
-    
-    private final JLabel colLabel;
-    
-    private final JLabel rowLabel;
-    
-    private final JLabel nonzerosLabel;
-    
-    private final JButton exportButton;
-    
-    private final JComboBox strategyComboBox;
-    
-    private final JComboBox paletteComboBox;
-    
-    public MainFrame() {
-        
-        // attach i18n
-        Locale locale = Locale.getDefault();
-        ResourceBundle rb = ResourceBundle.getBundle("i18n/uistrings", locale);
-        JFrame.setDefaultLookAndFeelDecorated(true);
-        
-        controller = new MaviControler();
-        
-        imagePreview = new JLabel("Here will be preview");
-        imagePreview.setOpaque(true);
-        colLabel = new JLabel(rb.getString("com.osa.mavi.ui.matrix.cols"));
-        rowLabel = new JLabel(rb.getString("com.osa.mavi.ui.matrix.rows"));
-        nonzerosLabel = new JLabel(rb.getString("com.osa.mavi.ui.matrix.nnz"));
-        strategyComboBox = crateStrategyComboBox(rb);
-        paletteComboBox = createPaletteComboBox(rb);
-        exportButton = createExportButton(rb);
-        
-        mainFrame = new JFrame(rb.getString("com.osa.mavi.ui.mavi"));
-        mainFrame.setJMenuBar(createMenuBar(rb));
-        
-        JPanel panel = createLayoutForMainFrame();
-        // info panel
-        
-        mainFrame.add(panel);
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setSize(400, 500);
-        mainFrame.setVisible(true);
-    }
-    
-    private JPanel createLayoutForMainFrame() {
-        JPanel panel = new JPanel();
-        GridBagLayout layout = new GridBagLayout();
-        panel.setLayout(layout);
-        GridBagConstraints gbc = new GridBagConstraints();
-        
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridx = 0;        
-        gbc.gridy = 0;
-//        gbc.gridwidth = 2;
-//        gbc.gridheight = 2;
-//        gbc.ipadx = 200;
-//        gbc.ipady = 200;
-        panel.add(imagePreview, gbc);
-        
-        // reset
-//        gbc.ipadx = 0;
-//        gbc.ipady = 0;
+public class MainFrame extends javax.swing.JFrame {
 
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        panel.add(paletteComboBox, gbc);
-        
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-//        gbc.weighty = 1.0;
-        panel.add(strategyComboBox, gbc);
-        
-        gbc.gridx = 2;
-        gbc.gridy = 1;
-        panel.add(exportButton, gbc);
-        return panel;
-    }
-    
-//    private JPanel createLayoutForMainFrame() {
-//        JPanel panel = new JPanel();
-//        GridBagLayout layout = new GridBagLayout();
-//        panel.setLayout(layout);
-//        GridBagConstraints gbc = new GridBagConstraints();
-//        
-//        gbc.fill = GridBagConstraints.HORIZONTAL;
-//        gbc.gridx = 0;        
-//        gbc.gridy = 0;
-//        gbc.gridwidth = 3;
-//        gbc.gridheight = 3;
-//        gbc.ipadx = 200;
-//        gbc.ipady = 200;
-//        panel.add(imagePreview, gbc);
-//        gbc.ipadx = 0;
-//        gbc.ipady = 0;
-//        
-//        gbc.gridwidth = 1;
-//        gbc.gridheight = 1;
-//        gbc.gridx = 0;
-//        gbc.gridy = 1;
-//        panel.add(colLabel, gbc);
-//        
-//        gbc.gridx = 1;
-//        gbc.gridy = 1;
-//        panel.add(rowLabel, gbc);
-//        
-//        gbc.gridx = 2;
-//        gbc.gridy = 1;
-//        panel.add(nonzerosLabel, gbc);
-//        
-//        gbc.gridx = 1;
-//        gbc.gridy = 2;
-//        panel.add(strategyComboBox);
-//        
-//        gbc.gridx = 2;
-//        gbc.gridy = 2;
-//        panel.add(exportButton);
-//        return panel;
-//    }
-    
-    private JComboBox createPaletteComboBox(final ResourceBundle rb) {
-        final String[] paletteValues = {"grey", "color"};
-        return new JComboBox(paletteValues);
-    }
-    
-    private JComboBox crateStrategyComboBox(final ResourceBundle rb) {
-        final String[] comboBoxValues = {
-            rb.getString("com.osa.mavi.ui.strategy.max"),
-            rb.getString("com.osa.mavi.ui.strategy.max.abs"),
-            rb.getString("com.osa.mavi.ui.strategy.mid"),
-            rb.getString("com.osa.mavi.ui.strategy.mid.avg"),
-        };
-        return new JComboBox(comboBoxValues);
-    }
-    
-    private JMenuBar createMenuBar(final ResourceBundle rb) {
-        JMenuBar applicationMenuBar = new JMenuBar();
-        applicationMenuBar.add(createFileMenu(rb));
-        applicationMenuBar.add(createHelpMenu(rb));
-        return applicationMenuBar;
-    }
-    
-    private JMenu createFileMenu(ResourceBundle rb) {
-        JMenuItem openMenuItem = createOpenMenuItem(rb);
-        JMenuItem closeMenuItem = createCloseMenuItem(rb);        
-        return getLabeledMenuGroup(rb, "com.osa.mavi.ui.menu.file", Arrays.asList(openMenuItem, closeMenuItem));
-    }
-    
-    private JMenu createHelpMenu(ResourceBundle rb) {
-        JMenuItem aboutMenuItem = createAboutMenuItem(rb);
-        return getLabeledMenuGroup(rb, "com.osa.mavi.ui.menu.help", Arrays.asList(aboutMenuItem));
-    }
-    
-    private JMenuItem createAboutMenuItem(final ResourceBundle rb) {
-        JMenuItem item = new JMenuItem(rb.getString("com.osa.mavi.ui.menu.item.about"));
-        item.addActionListener(
-                (event)->{JOptionPane.showMessageDialog(this, rb.getString("com.osa.mavi.ui.about"));});
-        return item;
-    }
-    
-    private JMenuItem createCloseMenuItem(final ResourceBundle rb) {
-        JMenuItem item = new JMenuItem(rb.getString("com.osa.mavi.ui.menu.item.close"));
-        item.addActionListener((event)->System.exit(0));
-        return item;
-    }
-    
-    private JButton createExportButton(final ResourceBundle rb) {
-        JButton button = new JButton(rb.getString("com.osa.mavi.ui.button.export"));
-        button.addActionListener((ActionEvent e) -> {
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setDialogTitle(rb.getString("com.osa.mavi.ui.dialog.save.title"));
-            fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-            int result = fileChooser.showSaveDialog(mainFrame);
-            if (result == JFileChooser.APPROVE_OPTION) {
-                File selectedFile = fileChooser.getSelectedFile();
-                System.out.println("Selected file to save to: " + selectedFile.getAbsolutePath());
-                controller.saveMatrixPortraitFile(selectedFile.getAbsolutePath(),
-                        320, 320, StrategyName.MAX_ABS_VAL);
-            }
-        });
-        return button;
-    }
-    
-    private JMenuItem createOpenMenuItem(final ResourceBundle rb) {
-        JMenuItem item = new JMenuItem(rb.getString("com.osa.mavi.ui.menu.item.open"));
-        item.setIcon(IconsResourceUtil.getOpenIcon());
-        item.addActionListener((ActionEvent e) -> {
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setDialogTitle(rb.getString("com.osa.mavi.ui.dialog.open.title"));
-            fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-            int result = fileChooser.showOpenDialog(this);
-            if (result == JFileChooser.APPROVE_OPTION) {
-                File selectedFile = fileChooser.getSelectedFile();
-                System.out.println("Selected file: " + selectedFile.getAbsolutePath());
-                controller.setMatrixFilePath(selectedFile.getAbsolutePath());
-                imagePreview.setIcon(new ImageIcon(controller.getPreviewStats().getImage()));
-            }
-        });
-        return item;
-    }
-    
     /**
-     * Create instance of {@link JMenu} with requested text and set items
-     * @param rb resource bundle
-     * @param label i18n key for text that has to be set
-     * @param items
-     * @return 
+     * Creates new form TestFrame
      */
-    private JMenu getLabeledMenuGroup(final ResourceBundle rb, final String label, List<JMenuItem> items) {
-        JMenu menu = new JMenu(rb.getString(label));
-        for (JMenuItem item : items) {
-            menu.add(item);
-        }
-        return menu;
+    public MainFrame() {
+        initComponents();
     }
+
+    /**
+     * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
+     * content of this method is always regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        openFileChooser = new javax.swing.JFileChooser();
+        saveFileChooser = new javax.swing.JFileChooser();
+        imagePreview = new javax.swing.JLabel();
+        expotPanel = new javax.swing.JPanel();
+        widthLabel = new javax.swing.JLabel();
+        widthInputField = new javax.swing.JTextField();
+        heightLabel = new javax.swing.JLabel();
+        heightInputField = new javax.swing.JTextField();
+        exportButton = new javax.swing.JButton();
+        previewPanel = new javax.swing.JPanel();
+        paletteComboBox = new javax.swing.JComboBox<>();
+        strategyComboBox = new javax.swing.JComboBox<>();
+        matrixStatsPanel = new javax.swing.JPanel();
+        matrixRowsCountLabel = new javax.swing.JLabel();
+        menuBar = new javax.swing.JMenuBar();
+        fileMenu = new javax.swing.JMenu();
+        openMenuItem = new javax.swing.JMenuItem();
+        closeMenuItem = new javax.swing.JMenuItem();
+        helpMenu = new javax.swing.JMenu();
+        aboutMenuItem = new javax.swing.JMenuItem();
+
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("i18n/uistrings"); // NOI18N
+        openFileChooser.setDialogTitle(bundle.getString("com.osa.mavi.ui.dialog.open.title")); // NOI18N
+        openFileChooser.setFileFilter(new MtxFileFilter());
+
+        saveFileChooser.setDialogTitle(bundle.getString("com.osa.mavi.ui.dialog.save.title")); // NOI18N
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle(bundle.getString("com.osa.mavi.ui.mavi")); // NOI18N
+
+        imagePreview.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        imagePreview.setText(bundle.getString("com.osa.mavi.ui.status.preview.text")); // NOI18N
+
+        expotPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("com.osa.mavi.ui.panel.export"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Lucida Grande", 1, 12))); // NOI18N
+
+        widthLabel.setText(bundle.getString("com.osa.mavi.ui.status.width")); // NOI18N
+
+        widthInputField.setText(bundle.getString("MainFrame.widthInputField.text")); // NOI18N
+        widthInputField.setEnabled(false);
+        widthInputField.setMinimumSize(new java.awt.Dimension(40, 26));
+        widthInputField.setPreferredSize(new java.awt.Dimension(60, 26));
+
+        heightLabel.setText(bundle.getString("com.osa.mavi.ui.status.height")); // NOI18N
+
+        heightInputField.setText(bundle.getString("MainFrame.heightInputField.text")); // NOI18N
+        heightInputField.setEnabled(false);
+        heightInputField.setMinimumSize(new java.awt.Dimension(40, 26));
+        heightInputField.setPreferredSize(new java.awt.Dimension(60, 26));
+
+        exportButton.setText(bundle.getString("com.osa.mavi.ui.button.export")); // NOI18N
+        exportButton.setEnabled(false);
+        exportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout expotPanelLayout = new javax.swing.GroupLayout(expotPanel);
+        expotPanel.setLayout(expotPanelLayout);
+        expotPanelLayout.setHorizontalGroup(
+            expotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(expotPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(widthLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(widthInputField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(heightLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(heightInputField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(exportButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        expotPanelLayout.setVerticalGroup(
+            expotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(expotPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(expotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(widthLabel)
+                    .addComponent(widthInputField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(heightInputField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(exportButton)
+                    .addComponent(heightLabel))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        previewPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("com.osa.mavi.ui.panel.previw.stats"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Lucida Grande", 1, 12))); // NOI18N
+
+        paletteComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
+            bundle.getString("com.osa.mavi.ui.color.grey"),
+            bundle.getString("com.osa.mavi.ui.color.color")
+        }));
+        paletteComboBox.setEnabled(false);
+        paletteComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                paletteComboBoxActionPerformed(evt);
+            }
+        });
+
+        strategyComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
+            bundle.getString("com.osa.mavi.ui.strategy.max"),
+            bundle.getString("com.osa.mavi.ui.strategy.max.abs"),
+            bundle.getString("com.osa.mavi.ui.strategy.mid"),
+            bundle.getString("com.osa.mavi.ui.strategy.mid.avg")
+        }));
+        strategyComboBox.setEnabled(false);
+        strategyComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                strategyComboBoxActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout previewPanelLayout = new javax.swing.GroupLayout(previewPanel);
+        previewPanel.setLayout(previewPanelLayout);
+        previewPanelLayout.setHorizontalGroup(
+            previewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(previewPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(paletteComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(strategyComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        previewPanelLayout.setVerticalGroup(
+            previewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(previewPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(previewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(paletteComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(strategyComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        matrixStatsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("com.osa.mavi.ui.panel.matrix.stats"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Lucida Grande", 1, 12))); // NOI18N
+
+        matrixRowsCountLabel.setText(bundle.getString("MainFrame.matrixRowsCountLabel.text")); // NOI18N
+
+        javax.swing.GroupLayout matrixStatsPanelLayout = new javax.swing.GroupLayout(matrixStatsPanel);
+        matrixStatsPanel.setLayout(matrixStatsPanelLayout);
+        matrixStatsPanelLayout.setHorizontalGroup(
+            matrixStatsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(matrixStatsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(matrixRowsCountLabel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        matrixStatsPanelLayout.setVerticalGroup(
+            matrixStatsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(matrixStatsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(matrixRowsCountLabel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        fileMenu.setText(bundle.getString("com.osa.mavi.ui.menu.file")); // NOI18N
+
+        openMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.META_DOWN_MASK));
+        openMenuItem.setText(bundle.getString("com.osa.mavi.ui.menu.item.open")); // NOI18N
+        openMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(openMenuItem);
+
+        closeMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.META_DOWN_MASK));
+        closeMenuItem.setText(bundle.getString("com.osa.mavi.ui.menu.item.close")); // NOI18N
+        closeMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(closeMenuItem);
+
+        menuBar.add(fileMenu);
+
+        helpMenu.setText(bundle.getString("com.osa.mavi.ui.menu.help")); // NOI18N
+
+        aboutMenuItem.setText(bundle.getString("com.osa.mavi.ui.menu.item.about")); // NOI18N
+        aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aboutMenuItemActionPerformed(evt);
+            }
+        });
+        helpMenu.add(aboutMenuItem);
+
+        menuBar.add(helpMenu);
+
+        setJMenuBar(menuBar);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(imagePreview, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(previewPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(matrixStatsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(expotPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(imagePreview, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(expotPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(previewPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(matrixStatsPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void closeMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeMenuItemActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_closeMenuItemActionPerformed
+
+    private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("i18n/uistrings");
+        JOptionPane.showMessageDialog(this,
+                bundle.getString("com.osa.mavi.ui.about.message"),
+                bundle.getString("com.osa.mavi.ui.about.title"),
+                JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_aboutMenuItemActionPerformed
+
+    private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
+        int returnVal = openFileChooser.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = openFileChooser.getSelectedFile();
+            controller.setMatrixFilePath(file.getAbsolutePath());
+            reloadPreview();
+            resetDefaultExportDimentions();
+            enableControls();
+        } else {
+            System.out.println("File access cancelled by user.");
+        }
+    }//GEN-LAST:event_openMenuItemActionPerformed
+
+    private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
+        // check if export height and width are valid numbers;
+        int height = getDimention(heightInputField);
+        int width = getDimention(widthInputField);
+        if (height == 0) { 
+            java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("i18n/uistrings");    
+            JOptionPane.showMessageDialog(this, bundle.getString("com.osa.mavi.ui.eport.domentions.height.error"),
+                    bundle.getString("com.osa.mavi.ui.eport.domentions.height.title"), JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if (width == 0){
+            java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("i18n/uistrings");    
+            JOptionPane.showMessageDialog(this, bundle.getString("com.osa.mavi.ui.eport.domentions.width.error"),
+                    bundle.getString("com.osa.mavi.ui.eport.domentions.width.title"), JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        saveFileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        int result = saveFileChooser.showSaveDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = saveFileChooser.getSelectedFile();
+            System.out.println("Selected file to save to: " + selectedFile.getAbsolutePath());
+            imagePreview.setText(selectedFile.getAbsolutePath());
+            controller.saveMatrixPortraitFile(selectedFile.getAbsolutePath(),
+                    getDimention(widthInputField),
+                    getDimention(heightInputField),
+                    strategyComboBox.getSelectedIndex(),
+                    paletteComboBox.getSelectedIndex());
+        }
+    }//GEN-LAST:event_exportButtonActionPerformed
+
+    private void strategyComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_strategyComboBoxActionPerformed
+        reloadPreview();
+    }//GEN-LAST:event_strategyComboBoxActionPerformed
+
+    private void paletteComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paletteComboBoxActionPerformed
+        reloadPreview();
+    }//GEN-LAST:event_paletteComboBoxActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new MainFrame().setVisible(true);
+            }
+        });
+    }
+
+    private void resetDefaultExportDimentions() {
+        int matrixHeight = controller.getPreviewStats().getNumberOfRows();
+        int matrixWidth = controller.getPreviewStats().getNumberOfColumns();
+        if (matrixHeight == matrixWidth) { // square matrix
+            matrixHeight = matrixHeight > DEFAULT_EXPORT_HEIGHT ? DEFAULT_EXPORT_HEIGHT : matrixHeight;
+            matrixWidth = matrixHeight;
+        } else { // make width proportional in case if matrix is not square matrix
+            double ratio = (double) matrixWidth / matrixHeight;
+            matrixHeight = matrixHeight > DEFAULT_EXPORT_HEIGHT ? DEFAULT_EXPORT_HEIGHT : matrixHeight;
+            matrixWidth = (int) (matrixHeight * ratio);
+        }
+        
+        heightInputField.setText(String.valueOf(matrixHeight));
+        widthInputField.setText(String.valueOf(matrixWidth));
+        
+    }
+    
+    private void reloadPreview() {
+        controller.reload(strategyComboBox.getSelectedIndex(), paletteComboBox.getSelectedIndex());
+        imagePreview.setText(null);
+        imagePreview.setIcon(new ImageIcon(controller.getPreviewStats().getImage()));
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("i18n/uistrings");
+        
+        matrixRowsCountLabel.setText(
+                bundle.getString("com.osa.mavi.ui.matrix.rows") + ": " + controller.getPreviewStats().getNumberOfRows()
+                + " "
+                + bundle.getString("com.osa.mavi.ui.matrix.cols") + ": "  + controller.getPreviewStats().getNumberOfColumns()
+                + " "
+                + bundle.getString("com.osa.mavi.ui.matrix.nnz") + ": "  + controller.getPreviewStats().getNumberOfNonzeroes()
+        );
+    }
+    
+    private void enableControls() {
+        this.heightInputField.setEnabled(true);
+        this.widthInputField.setEnabled(true);
+        this.exportButton.setEnabled(true);
+        this.strategyComboBox.setEnabled(true);
+        this.paletteComboBox.setEnabled(true);
+        heightInputField.addKeyListener(new IntegerKeyAdapter());
+        widthInputField.addKeyListener(new IntegerKeyAdapter());
+    }
+    
+    private int getDimention(JTextField field) {
+        String value = field.getText().trim();
+        if (value.isEmpty()) {
+            return 0;
+        }
+        return Integer.valueOf(value);
+        
+    }
+
+    private static final int DEFAULT_EXPORT_HEIGHT = 600;
+    private final MaviControler controller = new MaviControler();
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem aboutMenuItem;
+    private javax.swing.JMenuItem closeMenuItem;
+    private javax.swing.JButton exportButton;
+    private javax.swing.JPanel expotPanel;
+    private javax.swing.JMenu fileMenu;
+    private javax.swing.JTextField heightInputField;
+    private javax.swing.JLabel heightLabel;
+    private javax.swing.JMenu helpMenu;
+    private javax.swing.JLabel imagePreview;
+    private javax.swing.JLabel matrixRowsCountLabel;
+    private javax.swing.JPanel matrixStatsPanel;
+    private javax.swing.JMenuBar menuBar;
+    private javax.swing.JFileChooser openFileChooser;
+    private javax.swing.JMenuItem openMenuItem;
+    private javax.swing.JComboBox<String> paletteComboBox;
+    private javax.swing.JPanel previewPanel;
+    private javax.swing.JFileChooser saveFileChooser;
+    private javax.swing.JComboBox<String> strategyComboBox;
+    private javax.swing.JTextField widthInputField;
+    private javax.swing.JLabel widthLabel;
+    // End of variables declaration//GEN-END:variables
 }

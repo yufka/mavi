@@ -32,7 +32,7 @@
                             <archive>
                                 <manifest>
                                     <mainClass>
-                                        com.osa.mavi.ui.main.MainWindow
+                                        com.osa.mavi.ui.frame.MainFrame
                                     </mainClass>
                                 </manifest>
                             </archive>

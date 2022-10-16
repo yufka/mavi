@@ -1,14 +1,13 @@
 package com.osa.mavi.controller;
 
-import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 /**
- * Class represents matrix image (for saving and/or preview) and stats of matrix
- * 
+ *
  * @author oleksii
- * @since Oct 11, 2022
+ * @since Oct 14, 2022
  */
-public class ImageWithStats {
+public class MatrixStats implements Serializable {
 
     private int numberOfRows;
     
@@ -16,8 +15,6 @@ public class ImageWithStats {
     
     private int numberOfNonzeroes;
     
-    private BufferedImage image;
-
     public int getNumberOfRows() {
         return numberOfRows;
     }
@@ -40,13 +37,5 @@ public class ImageWithStats {
 
     public void setNumberOfNonzeroes(int numberOfNonzeroes) {
         this.numberOfNonzeroes = numberOfNonzeroes;
-    }
-
-    public BufferedImage getImage() {
-        return image;
-    }
-
-    public void setImage(BufferedImage image) {
-        this.image = image;
     }
 }
