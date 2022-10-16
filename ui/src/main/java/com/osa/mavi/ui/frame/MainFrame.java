@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -277,7 +278,7 @@ public class MainFrame extends javax.swing.JFrame {
             resetDefaultExportDimentions();
             enableControls();
         } else {
-            System.out.println("File access cancelled by user.");
+            LOGGER.info("File access cancelled by user.");
         }
     }//GEN-LAST:event_openMenuItemActionPerformed
 
@@ -301,7 +302,7 @@ public class MainFrame extends javax.swing.JFrame {
         int result = saveFileChooser.showSaveDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = saveFileChooser.getSelectedFile();
-            System.out.println("Selected file to save to: " + selectedFile.getAbsolutePath());
+            LOGGER.info("Selected file to save to: " + selectedFile.getAbsolutePath());
             imagePreview.setText(selectedFile.getAbsolutePath());
             controller.saveMatrixPortraitFile(selectedFile.getAbsolutePath(),
                     getDimention(widthInputField),
@@ -408,6 +409,8 @@ public class MainFrame extends javax.swing.JFrame {
 
     private static final int DEFAULT_EXPORT_HEIGHT = 600;
     private final MaviControler controller = new MaviControler();
+    
+    private static final Logger LOGGER = Logger.getLogger(MainFrame.class);
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JMenuItem closeMenuItem;
