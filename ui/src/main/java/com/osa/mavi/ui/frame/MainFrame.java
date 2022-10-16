@@ -10,7 +10,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -410,7 +411,7 @@ public class MainFrame extends javax.swing.JFrame {
     private static final int DEFAULT_EXPORT_HEIGHT = 600;
     private final MaviControler controller = new MaviControler();
     
-    private static final Logger LOGGER = Logger.getLogger(MainFrame.class);
+    private static final Logger LOGGER = LogManager.getLogger(MainFrame.class);
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JMenuItem closeMenuItem;

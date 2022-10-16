@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -11,6 +13,8 @@ import javax.imageio.ImageIO;
  * @since Dec 25, 2020
  */
 public class BufferedImageWriter {
+    
+    private static final Logger LOGGER = LogManager.getLogger(BufferedImageWriter.class);
     
     private final BufferedImage bufferedImage;
     

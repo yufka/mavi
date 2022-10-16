@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Abstract class File Readers
@@ -13,6 +15,8 @@ import java.io.IOException;
  * @since Jul 22, 2020
  */
 public abstract class MatrixFileReader implements AutoCloseable {
+    
+    private static final Logger LOGGER = LogManager.getLogger(MatrixFileReader.class);
     
     /**
      * Number of rows in matrix
@@ -39,6 +43,7 @@ public abstract class MatrixFileReader implements AutoCloseable {
     protected MatrixFileReader(final String fileName) throws FileNotFoundException {
         this.fileName = fileName;
         if (fileName == null || fileName.isEmpty()) {
+            LOGGER.error("fileName is null or empty");
             throw new IllegalArgumentException("fileName is null or empty");
         }
         bufferedReader = new BufferedReader(new FileReader(new File(fileName)));

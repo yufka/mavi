@@ -15,7 +15,8 @@ import com.osa.mavi.core.protrait.Portrait;
 import com.osa.mavi.core.protrait.PortraitToImageTransformer;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Utility class that provides functions of MaVi core module for image generation
@@ -27,7 +28,7 @@ public class MaviCoreUtils {
     
     private static final String SERVICE = MaviCoreUtils.class.getName();
 
-    private static final Logger LOGGER = Logger.getLogger(SERVICE);
+    private static final Logger LOGGER = LogManager.getLogger(SERVICE);
 
     public static MatrixStatsWithImage getMatrixImage(final String matrixFilePath, final int height, final int width,
             final StrategyName strategy, final int paletteIndex) {

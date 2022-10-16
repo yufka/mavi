@@ -2,7 +2,8 @@ package com.osa.mavi.controller;
 
 import com.osa.mavi.core.processor.strategy.StrategyName;
 import com.osa.mavi.ui.util.MaviCoreUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -13,7 +14,7 @@ public class MaviControler {
     
     private static final String SERVICE = MaviControler.class.getName();
 
-    private static final Logger LOGGER = Logger.getLogger(SERVICE);
+    private static final Logger LOGGER = LogManager.getLogger(SERVICE);
     
     private static final int DEFAULT_DIMENSION = 320;
     

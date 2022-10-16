@@ -3,7 +3,8 @@ package com.osa.mavi.core.io;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Locale;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * This class read files of MatrixMarket type described in Matrix Market
@@ -18,7 +19,7 @@ public class MatrixMarketReader extends MatrixFileReader {
     
     private static final String SERVICE = MatrixMarketReader.class.getName();
     
-    private static final Logger LOGGER = Logger.getLogger("mavi-core");
+    private static final Logger LOGGER = LogManager.getLogger(MatrixFileReader.class);
 
     /**
      * First Line in Matrix Market should start with this String.
