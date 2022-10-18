@@ -71,14 +71,12 @@ public class MainFrame extends javax.swing.JFrame {
 
         widthLabel.setText(bundle.getString("com.osa.mavi.ui.status.width")); // NOI18N
 
-        widthInputField.setText(bundle.getString("MainFrame.widthInputField.text")); // NOI18N
         widthInputField.setEnabled(false);
         widthInputField.setMinimumSize(new java.awt.Dimension(40, 26));
         widthInputField.setPreferredSize(new java.awt.Dimension(60, 26));
 
         heightLabel.setText(bundle.getString("com.osa.mavi.ui.status.height")); // NOI18N
 
-        heightInputField.setText(bundle.getString("MainFrame.heightInputField.text")); // NOI18N
         heightInputField.setEnabled(false);
         heightInputField.setMinimumSize(new java.awt.Dimension(40, 26));
         heightInputField.setPreferredSize(new java.awt.Dimension(60, 26));
@@ -170,7 +168,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         matrixStatsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("com.osa.mavi.ui.panel.matrix.stats"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Lucida Grande", 1, 12))); // NOI18N
 
-        matrixRowsCountLabel.setText(bundle.getString("MainFrame.matrixRowsCountLabel.text")); // NOI18N
+        matrixRowsCountLabel.setText(bundle.getString("com.osa.mavi.ui.matrix.cols")); // NOI18N
 
         javax.swing.GroupLayout matrixStatsPanelLayout = new javax.swing.GroupLayout(matrixStatsPanel);
         matrixStatsPanel.setLayout(matrixStatsPanelLayout);
@@ -289,13 +287,13 @@ public class MainFrame extends javax.swing.JFrame {
         int width = getDimention(widthInputField);
         if (height == 0) { 
             java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("i18n/uistrings");    
-            JOptionPane.showMessageDialog(this, bundle.getString("com.osa.mavi.ui.eport.domentions.height.error"),
-                    bundle.getString("com.osa.mavi.ui.eport.domentions.height.title"), JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, bundle.getString("com.osa.mavi.ui.export.domentions.height.error"),
+                    bundle.getString("com.osa.mavi.ui.export.domentions.height.title"), JOptionPane.ERROR_MESSAGE);
             return;
         } else if (width == 0){
             java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("i18n/uistrings");    
-            JOptionPane.showMessageDialog(this, bundle.getString("com.osa.mavi.ui.eport.domentions.width.error"),
-                    bundle.getString("com.osa.mavi.ui.eport.domentions.width.title"), JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, bundle.getString("com.osa.mavi.ui.export.domentions.width.error"),
+                    bundle.getString("com.osa.mavi.ui.export.domentions.width.title"), JOptionPane.ERROR_MESSAGE);
             return;
         }
         
@@ -304,12 +302,21 @@ public class MainFrame extends javax.swing.JFrame {
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = saveFileChooser.getSelectedFile();
             LOGGER.info("Selected file to save to: " + selectedFile.getAbsolutePath());
-            imagePreview.setText(selectedFile.getAbsolutePath());
+            if (selectedFile.exists()) {
+                LOGGER.info("Selected file already exists: " + selectedFile.getAbsolutePath());
+                java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("i18n/uistrings");
+                String title = bundle.getString("com.osa.mavi.ui.export.file.override.title");
+                String message = bundle.getString("com.osa.mavi.ui.export.file.override.message") + "\n + selectedFile.getPath()";
+                int option = JOptionPane.showConfirmDialog(this, message, title, JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE );
+                if (option == JOptionPane.NO_OPTION) {
+                    return;
+                }
+            }
             controller.saveMatrixPortraitFile(selectedFile.getAbsolutePath(),
-                    getDimention(widthInputField),
-                    getDimention(heightInputField),
-                    strategyComboBox.getSelectedIndex(),
-                    paletteComboBox.getSelectedIndex());
+            getDimention(widthInputField),
+            getDimention(heightInputField),
+            strategyComboBox.getSelectedIndex(),
+            paletteComboBox.getSelectedIndex());
         }
     }//GEN-LAST:event_exportButtonActionPerformed
 
