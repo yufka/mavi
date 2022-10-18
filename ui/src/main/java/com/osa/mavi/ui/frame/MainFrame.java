@@ -306,7 +306,8 @@ public class MainFrame extends javax.swing.JFrame {
                 LOGGER.info("Selected file already exists: " + selectedFile.getAbsolutePath());
                 java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("i18n/uistrings");
                 String title = bundle.getString("com.osa.mavi.ui.export.file.override.title");
-                String message = bundle.getString("com.osa.mavi.ui.export.file.override.message") + "\n + selectedFile.getPath()";
+                String message = bundle.getString("com.osa.mavi.ui.export.file.override.message") + "\n "
+                        + selectedFile.getPath();
                 int option = JOptionPane.showConfirmDialog(this, message, title, JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE );
                 if (option == JOptionPane.NO_OPTION) {
                     return;
