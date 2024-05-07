@@ -3,8 +3,8 @@ package com.osa.mavi.core.io;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Locale;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * This class read files of MatrixMarket type described in Matrix Market
@@ -15,11 +15,8 @@ import org.apache.logging.log4j.Logger;
  * @author oleksii
  * @since Mar 3, 2021
  */
+@Slf4j
 public class MatrixMarketReader extends MatrixFileReader {
-    
-    private static final String SERVICE = MatrixMarketReader.class.getName();
-    
-    private static final Logger LOGGER = LogManager.getLogger(MatrixFileReader.class);
 
     /**
      * First Line in Matrix Market should start with this String.
@@ -68,7 +65,7 @@ public class MatrixMarketReader extends MatrixFileReader {
                         Double.valueOf(splits[2]));
             }
         } catch (IOException | IllegalArgumentException e) {
-            LOGGER.error(SERVICE, e);
+            log.error("Failed to extract entry", e);
         }
         return null;
     }

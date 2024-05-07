@@ -4,27 +4,23 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *
  * @author oleksii
  * @since Dec 25, 2020
  */
+@Slf4j
 public class BufferedImageWriter {
-    
     private static final String PNG_STRING = "png";
-    
     private static final String PNG_ENDING = "." + PNG_STRING;
-    
-    private static final Logger LOGGER = LogManager.getLogger(BufferedImageWriter.class);
-    
     private final BufferedImage bufferedImage;
     
     public BufferedImageWriter(BufferedImage image) {
         if (image == null) {
-            LOGGER.error("Can not create writer for null object");
+            log.error("Can not create writer for null object");
             throw new IllegalArgumentException("Can not create writer for null object");
         }
         this.bufferedImage = image;
@@ -32,7 +28,7 @@ public class BufferedImageWriter {
     
     public void saveTo(final String fileName) throws IOException {
         if (fileName == null || fileName.trim().isEmpty()) {
-            LOGGER.warn("File name is null or empty");
+            log.warn("File name is null or empty");
             return;
         }
         String fileNameTrimmed = fileName.trim();
