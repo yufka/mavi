@@ -1,9 +1,9 @@
 package com.osa.mavi.core.processor;
 
-import com.osa.mavi.core.io.MatrixEntry;
-import com.osa.mavi.core.io.MatrixFileMetadata;
+import com.osa.mavi.core.model.MatrixEntry;
+import com.osa.mavi.core.model.MatrixFileMetadata;
 import com.osa.mavi.core.io.MatrixFileReader;
-import com.osa.mavi.core.io.MatrixFileStats;
+import com.osa.mavi.core.model.MatrixFileStats;
 import com.osa.mavi.core.processor.strategy.Strategy;
 import com.osa.mavi.core.processor.strategy.StrategyFactory;
 import com.osa.mavi.core.processor.strategy.StrategyName;
@@ -53,7 +53,7 @@ public class PortraitBuilder {
                 strategyMatrix[i][j] = StrategyFactory.get(strategyName);
             }
         }
-        this.absoluteVale = StrategyName.isAbsoluteValueStrategy(strategyName);
+        this.absoluteVale = strategyMatrix[0][0].isAbsoluteValueStrategy();
     }
     
     public Portrait build(final MatrixFileReader reader) {

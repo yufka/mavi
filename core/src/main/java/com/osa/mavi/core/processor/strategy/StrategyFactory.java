@@ -21,5 +21,4 @@ public class StrategyFactory {
                 throw new IllegalArgumentException("Can not find strategy with name");
         }
     }
-
 }

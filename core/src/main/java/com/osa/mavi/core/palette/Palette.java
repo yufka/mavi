@@ -1,6 +1,6 @@
 package com.osa.mavi.core.palette;
 
-import com.osa.mavi.core.io.MatrixFileStats;
+import com.osa.mavi.core.model.MatrixFileStats;
 import java.awt.Color;
 
 /**
@@ -19,7 +19,7 @@ public abstract class Palette {
     protected double minMaxRange;
      
     public Palette(MatrixFileStats stats) {
-        this.absoluteValues = stats.isAbolute();
+        this.absoluteValues = stats.isAbsolute();
         this.minElement = stats.getMinElement();
         this.maxElement = stats.getMaxElement();
         this.minMaxRange = maxElement - minElement;

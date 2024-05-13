@@ -28,4 +28,8 @@ public interface Strategy {
      * @return name of strategy
      */
     StrategyName getName();
+
+    boolean isAbsoluteValueStrategy();
+
+
 }

@@ -4,7 +4,7 @@ import com.osa.mavi.controller.MatrixStats;
 import com.osa.mavi.controller.MatrixStatsWithImage;
 import com.osa.mavi.core.io.BufferedImageWriter;
 import com.osa.mavi.core.io.MatrixFileReader;
-import com.osa.mavi.core.io.MatrixFileStats;
+import com.osa.mavi.core.model.MatrixFileStats;
 import com.osa.mavi.core.io.MatrixMarketReader;
 import com.osa.mavi.core.palette.FullscaleRainbowPalette;
 import com.osa.mavi.core.palette.GreyscalePalette;

@@ -28,4 +28,9 @@ public class MaxAbsValueStrategy implements Strategy {
     public StrategyName getName() {
         return StrategyName.MAX_ABS_VAL;
     }
+
+    @Override
+    public boolean isAbsoluteValueStrategy() {
+        return true;
+    }
 }

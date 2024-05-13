@@ -1,5 +1,8 @@
 package com.osa.mavi.core.io;
 
+import com.osa.mavi.core.model.MatrixEntry;
+import com.osa.mavi.core.model.MatrixFileMetadata;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
@@ -15,28 +18,13 @@ import java.io.IOException;
  * @since Jul 22, 2020
  */
 @Slf4j
+@Getter
 public abstract class MatrixFileReader implements AutoCloseable {
-    
-    /**
-     * Number of rows in matrix
-     */
+
     protected int numberOfRows;
-
-    /**
-     * Number of columns in matrix
-     */
     protected int numberOfColumns;
-
-    /**
-     * Number of non-zero elements in matrix
-     */
     protected int numberOfElements;
-    
-    /**
-     * String contains path to file of matrix.
-     */
     protected final String fileName;
-    
     protected BufferedReader bufferedReader;
     
     protected MatrixFileReader(final String fileName) throws FileNotFoundException {
@@ -46,6 +34,7 @@ public abstract class MatrixFileReader implements AutoCloseable {
             throw new IllegalArgumentException("fileName is null or empty");
         }
         bufferedReader = new BufferedReader(new FileReader(new File(fileName)));
+        log.debug("Opened matrix file : " + fileName);
     }
     
     /**
@@ -57,36 +46,12 @@ public abstract class MatrixFileReader implements AutoCloseable {
     public abstract MatrixEntry getEntry();
     
     public abstract MatrixFileMetadata getMetadata();
-    
-    /**
-     * This function can be used by matrix readers to split string into words.
-     * 
-     * @param line string line
-     * @return array of words from string, or {@code null} if string is not initialized.
-     */
-    protected String[] splitOnWhiteSpaces(final String line) {
-        if (line != null) {
-            return line.trim().split("\\s+");
-        }
-        return null;
-    }
-    
+
+
     @Override
     public void close() throws IOException {
         if (this.bufferedReader != null) {
             this.bufferedReader.close();
         }
-    }
-    
-    public int getNumberOfRows() {
-        return numberOfRows;
-    }
-
-    public int getNumberOfColumns() {
-        return numberOfColumns;
-    }
-
-    public int getNumberOfElements() {
-        return numberOfElements;
     }
 }

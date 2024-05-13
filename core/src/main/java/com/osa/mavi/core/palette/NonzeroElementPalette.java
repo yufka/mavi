@@ -1,6 +1,6 @@
 package com.osa.mavi.core.palette;
 
-import com.osa.mavi.core.io.MatrixFileStats;
+import com.osa.mavi.core.model.MatrixFileStats;
 import java.awt.Color;
 
 /**

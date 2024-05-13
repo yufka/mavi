@@ -28,4 +28,9 @@ public class MiddleAbsValueStrategy implements Strategy {
     public StrategyName getName() {
         return StrategyName.MID_ABS_VAL;
     }
+
+    @Override
+    public boolean isAbsoluteValueStrategy() {
+        return true;
+    }
 }

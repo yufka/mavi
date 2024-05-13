@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Locale;
 
+import com.osa.mavi.core.model.MatrixEntry;
+import com.osa.mavi.core.model.MatrixFileMetadata;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -18,16 +20,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MatrixMarketReader extends MatrixFileReader {
 
-    /**
-     * First Line in Matrix Market should start with this String.
-     */
-    private static final String MM_MARKER = "%%MatrixMarket ";
-    
-    private boolean isSymetric;
+    private boolean isSymmetric;
 
     private String type;
-
-    private String header;
 
     private boolean isMatrix;
 
@@ -35,15 +30,13 @@ public class MatrixMarketReader extends MatrixFileReader {
 
     public MatrixMarketReader(final String fileName) throws FileNotFoundException, IOException {
         super(fileName);
-        header = bufferedReader.readLine().trim();
-        parseMatrixHeader(header);
-        boolean readDimentions = false;
+        parseMatrixHeader(bufferedReader.readLine().trim());
+        boolean readDimensions = false;
         while (true) {
-            if (readDimentions == true) {
+            if (readDimensions == true) {
                 break;
             }
-            String line = bufferedReader.readLine().trim();
-            readDimentions = parseMatrixDimentions(line);
+            readDimensions = parseMatrixDimensions(bufferedReader.readLine().trim().toLowerCase(Locale.ROOT));
         }
     }
 
@@ -53,10 +46,10 @@ public class MatrixMarketReader extends MatrixFileReader {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 line = line.trim().toLowerCase(Locale.ROOT);
-                if (line.isEmpty() || line.startsWith("%")) {
-                    continue; // skip comments
+                if (MatrixReaderUtils.isMatrixMarketComment(line)) {
+                    continue;
                 }
-                String[] splits = splitOnWhiteSpaces(line);
+                String[] splits = MatrixReaderUtils.splitOnWhiteSpaces(line);
                 if (splits.length != 3) {
                     throw new IllegalArgumentException("Line with wrong number of elements: expected 3 but got: "
                             + splits.length);
@@ -72,26 +65,28 @@ public class MatrixMarketReader extends MatrixFileReader {
 
     @Override
     public MatrixFileMetadata getMetadata() {
-        return new MatrixFileMetadata(getNumberOfRows(), getNumberOfColumns(), getNumberOfElements(), isSymetric, type, header);
+        return new MatrixFileMetadata(numberOfRows, numberOfColumns, numberOfElements, isSymmetric, type);
     }
 
     private void parseMatrixHeader(String header) {
-        if (header == null || header.isEmpty() || !header.startsWith(MM_MARKER)) {
+        if (!MatrixReaderUtils.isMatrixMarketFirstLine(header)) {
             throw new IllegalArgumentException("First line does not correspond to Matrix Market format.");
         }
-        header = header.substring(MM_MARKER.length());
-        String[] splits = header.split("\\s+");
+        header = MatrixReaderUtils.getWithoutHeaderPrefix(header);
+        String[] splits = MatrixReaderUtils.splitOnWhiteSpaces(header);
+
         try {
             if (splits.length > 1) {
-                String object = splits[0].toLowerCase(Locale.ROOT);
-                isMatrix = "matrix".equals(object) || "vector".equals(object);
+
+                String matrixDimention = splits[0].toLowerCase(Locale.ROOT);
+                isMatrix = MatrixReaderUtils.isMatrix(matrixDimention) || MatrixReaderUtils.isVector(matrixDimention);
 
                 String formatType = splits[1].toLowerCase(Locale.ROOT);
                 isCoordinate = "coordinate".equals(formatType);
+
                 for (int i = 2; i < splits.length; i++) {
-                    String symetricProperty = splits[i].toLowerCase(Locale.ROOT);
-                    if ("symetric".equals(symetricProperty)) {
-                        isSymetric = true;
+                    if ("symmetric".equals(splits[i].toLowerCase(Locale.ROOT))) {
+                        isSymmetric = true;
                         break;
                     }
                 }
@@ -104,32 +99,18 @@ public class MatrixMarketReader extends MatrixFileReader {
         }
     }
 
-    private boolean parseMatrixDimentions(String line) {
-        line = line.trim().toLowerCase(Locale.ROOT);
-        if (line.isEmpty() || line.startsWith("%")) {
+    private boolean parseMatrixDimensions(String line) {
+        if (MatrixReaderUtils.isMatrixMarketComment(line)) {
             return false;
         }
-        String[] splits = splitOnWhiteSpaces(line);
+        String[] splits = MatrixReaderUtils.splitOnWhiteSpaces(line);
         if (splits.length != 3) {
+            log.error("Failed to parse matrix dimentions from string : " + line);
             return false;
         }
         numberOfRows = Integer.valueOf(splits[0]);
         numberOfColumns = Integer.valueOf(splits[1]);
         numberOfElements = Integer.valueOf(splits[2]);
         return true;
-    }
-
-    private MatrixEntry parseMatrixEntry(String line) {
-        if (line != null) {
-            line = line.trim().toLowerCase(Locale.ROOT);
-            if (!line.isEmpty() && !line.startsWith("%")) {
-                String[] splits = splitOnWhiteSpaces(line);
-                if (splits.length == 3) {
-                    return new MatrixEntry(Integer.valueOf(splits[0]), Integer.valueOf(splits[1]),
-                            Double.valueOf(splits[2]));
-                }
-            }
-        }
-        return null;
     }
 }

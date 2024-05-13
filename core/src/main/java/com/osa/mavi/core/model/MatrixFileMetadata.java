@@ -1,4 +1,4 @@
-package com.osa.mavi.core.io;
+package com.osa.mavi.core.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,14 +16,12 @@ import lombok.Data;
 public class MatrixFileMetadata {
 
     private int numberOfRows;
-    
+
     private int numberOfColumns;
-    
-    private int numberOfElements;
-    
+
+    private int numberOfNonzeroElements;
+
     private boolean symmetric;
-    
+
     private String type;
-    
-    private String header;
 }
