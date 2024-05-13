@@ -31,12 +31,8 @@ public class MatrixMarketReader extends MatrixFileReader {
     public MatrixMarketReader(final String fileName) throws FileNotFoundException, IOException {
         super(fileName);
         parseMatrixHeader(bufferedReader.readLine().trim());
-        boolean readDimensions = false;
-        while (true) {
-            if (readDimensions == true) {
-                break;
-            }
-            readDimensions = parseMatrixDimensions(bufferedReader.readLine().trim().toLowerCase(Locale.ROOT));
+        while (!parseMatrixDimensions(bufferedReader.readLine().trim().toLowerCase(Locale.ROOT))) {
+            break;
         }
     }
 
@@ -65,7 +61,7 @@ public class MatrixMarketReader extends MatrixFileReader {
 
     @Override
     public MatrixFileMetadata getMetadata() {
-        return new MatrixFileMetadata(numberOfRows, numberOfColumns, numberOfElements, isSymmetric, type);
+        return matrixFileMetadata;
     }
 
     private void parseMatrixHeader(String header) {
@@ -86,7 +82,7 @@ public class MatrixMarketReader extends MatrixFileReader {
 
                 for (int i = 2; i < splits.length; i++) {
                     if ("symmetric".equals(splits[i].toLowerCase(Locale.ROOT))) {
-                        isSymmetric = true;
+                        matrixFileMetadata.setSymmetric(true);
                         break;
                     }
                 }
@@ -108,9 +104,9 @@ public class MatrixMarketReader extends MatrixFileReader {
             log.error("Failed to parse matrix dimentions from string : " + line);
             return false;
         }
-        numberOfRows = Integer.valueOf(splits[0]);
-        numberOfColumns = Integer.valueOf(splits[1]);
-        numberOfElements = Integer.valueOf(splits[2]);
+        matrixFileMetadata.setNumberOfRows(Integer.valueOf(splits[0]));
+        matrixFileMetadata.setNumberOfColumns(Integer.valueOf(splits[1]));
+        matrixFileMetadata.setNumberOfNonzeroElements(Integer.valueOf(splits[2]));
         return true;
     }
 }

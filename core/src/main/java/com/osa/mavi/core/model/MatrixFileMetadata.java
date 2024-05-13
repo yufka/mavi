@@ -2,6 +2,7 @@ package com.osa.mavi.core.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Class contains information about matrix size, number of elements,
@@ -12,6 +13,7 @@ import lombok.Data;
  */
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class MatrixFileMetadata {
 

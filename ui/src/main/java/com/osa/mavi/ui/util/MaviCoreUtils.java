@@ -39,9 +39,9 @@ public class MaviCoreUtils {
             MatrixStatsWithImage imageStats = new MatrixStatsWithImage();
             imageStats.setImage(new PortraitToImageTransformer(getPalette(paletteIndex, builder.getStats()))
                     .getImage(portrait));
-            imageStats.setNumberOfRows(reader.getNumberOfRows());
-            imageStats.setNumberOfColumns(reader.getNumberOfColumns());
-            imageStats.setNumberOfNonzeroes(reader.getNumberOfElements());
+            imageStats.setNumberOfRows(reader.getMetadata().getNumberOfRows());
+            imageStats.setNumberOfColumns(reader.getMetadata().getNumberOfColumns());
+            imageStats.setNumberOfNonzeroes(reader.getMetadata().getNumberOfNonzeroElements());
             return imageStats;
         } catch (FileNotFoundException fnfe) {
             LOGGER.error("File not found : " + matrixFilePath, fnfe);
@@ -55,9 +55,9 @@ public class MaviCoreUtils {
         try {
             MatrixFileReader reader = new MatrixMarketReader(matrixFilePath);
             MatrixStats stats = new MatrixStats();
-            stats.setNumberOfColumns(reader.getNumberOfColumns());
-            stats.setNumberOfRows(reader.getNumberOfRows());
-            stats.setNumberOfNonzeroes(reader.getNumberOfElements());
+            stats.setNumberOfColumns(reader.getMetadata().getNumberOfColumns());
+            stats.setNumberOfRows(reader.getMetadata().getNumberOfRows());
+            stats.setNumberOfNonzeroes(reader.getMetadata().getNumberOfNonzeroElements());
             return stats;
         }
         catch (FileNotFoundException fnfe) {

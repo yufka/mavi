@@ -21,14 +21,11 @@ import java.io.IOException;
 @Getter
 public abstract class MatrixFileReader implements AutoCloseable {
 
-    protected int numberOfRows;
-    protected int numberOfColumns;
-    protected int numberOfElements;
-    protected final String fileName;
-    protected BufferedReader bufferedReader;
+    protected MatrixFileMetadata matrixFileMetadata;
+    protected final BufferedReader bufferedReader;
     
     protected MatrixFileReader(final String fileName) throws FileNotFoundException {
-        this.fileName = fileName;
+        this.matrixFileMetadata = new MatrixFileMetadata();
         if (fileName == null || fileName.isEmpty()) {
             log.error("fileName is null or empty");
             throw new IllegalArgumentException("fileName is null or empty");
@@ -46,7 +43,6 @@ public abstract class MatrixFileReader implements AutoCloseable {
     public abstract MatrixEntry getEntry();
     
     public abstract MatrixFileMetadata getMetadata();
-
 
     @Override
     public void close() throws IOException {
